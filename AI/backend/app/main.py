@@ -7,11 +7,6 @@ import sys
 import time
 import uuid
 from datetime import datetime
-
-# Add backend to path
-backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, backend_path)
-
 from llms.ollama_llms import OllamaLLMs
 from chatbot.ChatbotOllama import ChatbotOllama
 import logging
@@ -35,7 +30,6 @@ logger = logging.getLogger(__name__)
 def initialize_llm_client():
     try:
         # Import LLM Manager
-        sys.path.insert(0, backend_path)
         from llms.llm_manager import llm_manager
         
         # For Docker containers, use host.docker.internal to reach host machine
