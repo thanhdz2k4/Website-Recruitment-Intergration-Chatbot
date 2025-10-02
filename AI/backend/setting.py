@@ -24,9 +24,11 @@ class Settings(BaseSettings):
     RERANKING_CROSS_ENCODER_MODEL_ID: str = "cross-encoder/ms-marco-MiniLM-L-4-v2"
     RAG_MODEL_DEVICE: str = "cpu"
     RAG_MODEL_ID: str = "hf.co/unsloth/Qwen3-1.7B-GGUF:IQ4_XS"
+    OLLAMA_MODEL: str = "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M"  # Add this field
     
     # Performance optimization settings
     OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M"  # Add this field
     OLLAMA_TIMEOUT: int = 120
     MODEL_KEEP_ALIVE: int = 600  # Giữ model trong 10 phút
     ENABLE_MODEL_PRELOAD: bool = True

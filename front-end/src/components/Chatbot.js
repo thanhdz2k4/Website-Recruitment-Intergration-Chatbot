@@ -5,21 +5,63 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm your career assistant. How can I help you today?",
+      text: "Xin chào! Tôi là trợ lý tuyển dụng AI của bạn. Tôi có thể giúp bạn tìm việc, tư vấn nghề nghiệp và hỗ trợ về CV. Bạn cần hỗ trợ gì hôm nay?",
       sender: 'bot',
       timestamp: new Date()
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // AI Backend API URL - ensure it matches the Flask server
+  const AI_API_BASE_URL = process.env.REACT_APP_AI_API_URL || 'http://localhost:5000';
+  
+  // Add CORS headers for development
+  const API_HEADERS = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json'
+  };
+
   const quickReplies = [
-    { id: 1, text: "Find jobs", icon: "🔍" },
-    { id: 2, text: "Upload CV", icon: "📄" },
-    { id: 3, text: "Career advice", icon: "💡" },
-    { id: 4, text: "Contact support", icon: "💬" }
+    { id: 1, text: "Tìm việc làm", icon: "🔍" },
+    { id: 2, text: "Tải CV lên", icon: "📄" },
+    { id: 3, text: "Tư vấn nghề nghiệp", icon: "💡" },
+    { id: 4, text: "Hỗ trợ phỏng vấn", icon: "💬" }
   ];
+
+  // Check AI service health on component mount
+  useEffect(() => {
+    checkAIServiceHealth();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const checkAIServiceHealth = async () => {
+    try {
+      console.log('🔍 Checking AI service health at:', `${AI_API_BASE_URL}/health`);
+      
+      const response = await fetch(`${AI_API_BASE_URL}/health`, {
+        method: 'GET',
+        headers: API_HEADERS,
+        mode: 'cors', // Explicitly set CORS mode
+        cache: 'no-cache'
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setIsConnected(true);
+        console.log('✅ AI Service connected successfully:', data);
+      } else {
+        setIsConnected(false);
+        console.warn('⚠️ AI Service health check failed with status:', response.status);
+      }
+    } catch (error) {
+      setIsConnected(false);
+      console.error('❌ Failed to connect to AI Service:', error.message);
+      console.error('❌ Error details:', error);
+    }
+  };
 
   // Auto scroll to bottom
   const scrollToBottom = () => {
@@ -30,34 +72,78 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Simulate bot response
-  const getBotResponse = (userMessage) => {
-    const lowerMessage = userMessage.toLowerCase();
+  // Get AI bot response from backend with retry logic
+  const getAIResponse = async (userMessage, retryCount = 0) => {
+    const maxRetries = 2;
     
-    if (lowerMessage.includes('job') || lowerMessage.includes('find')) {
-      return "I can help you find jobs! What type of position are you looking for? You can browse our job listings or tell me your preferred industry.";
-    } else if (lowerMessage.includes('cv') || lowerMessage.includes('resume')) {
-      return "Great! You can upload your CV on our platform. Would you like me to guide you through the process?";
-    } else if (lowerMessage.includes('career') || lowerMessage.includes('advice')) {
-      return "I'd be happy to provide career advice! What specific area would you like guidance on? Interview tips, career development, or salary negotiation?";
-    } else if (lowerMessage.includes('contact') || lowerMessage.includes('support')) {
-      return "You can reach our support team at support@jobportal.com or call us at +1-234-567-8900. We're here Monday-Friday, 9AM-6PM.";
-    } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-      return "Hello! 👋 How can I assist you with your job search today?";
-    } else if (lowerMessage.includes('thank')) {
-      return "You're welcome! Is there anything else I can help you with?";
-    } else {
-      return "I'm here to help! You can ask me about finding jobs, uploading your CV, career advice, or contact our support team.";
+    try {
+      console.log('🚀 Sending message to AI backend:', `${AI_API_BASE_URL}/api/chat`);
+      
+      const response = await fetch(`${AI_API_BASE_URL}/api/chat`, {
+        method: 'POST',
+        headers: API_HEADERS,
+        mode: 'cors', // Explicitly set CORS mode
+        credentials: 'include', // Include session cookies
+        body: JSON.stringify({
+          message: userMessage
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        // Update connection status on successful response
+        if (!isConnected) {
+          setIsConnected(true);
+        }
+        return data.response;
+      } else if (data.status === 'service_unavailable') {
+        throw new Error("AI service unavailable");
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    } catch (error) {
+      console.error(`AI API Error (attempt ${retryCount + 1}):`, error.message);
+      console.error('Full error details:', error);
+      console.error('API URL attempted:', `${AI_API_BASE_URL}/api/chat`);
+      
+      // Retry logic for temporary failures
+      if (retryCount < maxRetries && (
+        error.message.includes('fetch') || 
+        error.message.includes('network') || 
+        error.message.includes('timeout')
+      )) {
+        console.log(`Retrying AI request... (${retryCount + 1}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
+        return getAIResponse(userMessage, retryCount + 1);
+      }
+      
+      // Update connection status on persistent failure
+      setIsConnected(false);
+      
+      // Re-throw error to be handled by caller
+      throw error;
     }
   };
 
-  const handleSendMessage = () => {
+  // Simplified fallback for critical errors only
+  const getEmergencyFallback = () => {
+    return "Xin lỗi, hệ thống AI hiện tại đang gặp sự cố. Vui lòng thử lại sau ít phút hoặc liên hệ bộ phận hỗ trợ để được trợ giúp trực tiếp.";
+  };
+
+  const handleSendMessage = async () => {
     if (inputValue.trim() === '') return;
+
+    const userMessageText = inputValue.trim();
 
     // Add user message
     const userMessage = {
-      id: messages.length + 1,
-      text: inputValue,
+      id: Date.now(),
+      text: userMessageText,
       sender: 'user',
       timestamp: new Date()
     };
@@ -66,43 +152,84 @@ const Chatbot = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate bot typing and response
-    setTimeout(() => {
+    try {
+      // Always try AI response first
+      const aiResponse = await getAIResponse(userMessageText);
+      
       const botResponse = {
-        id: messages.length + 2,
-        text: getBotResponse(inputValue),
+        id: Date.now() + 1,
+        text: aiResponse,
         sender: 'bot',
         timestamp: new Date()
       };
+      
       setMessages(prev => [...prev, botResponse]);
-      setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
-  };
-
-  const handleQuickReply = (text) => {
-    setInputValue(text);
-    // Auto send after selecting quick reply
-    setTimeout(() => {
-      const userMessage = {
-        id: messages.length + 1,
-        text: text,
-        sender: 'user',
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      
+      // Only use emergency fallback when AI completely fails
+      const errorResponse = {
+        id: Date.now() + 1,
+        text: getEmergencyFallback(),
+        sender: 'bot',
         timestamp: new Date()
       };
-      setMessages(prev => [...prev, userMessage]);
-      setIsTyping(true);
+      
+      setMessages(prev => [...prev, errorResponse]);
+      
+      // Try to reconnect after failure
+      setTimeout(() => {
+        checkAIServiceHealth();
+      }, 2000);
+    } finally {
+      setIsTyping(false);
+    }
+  };
 
+  const handleQuickReply = async (text) => {
+    // Add user message immediately
+    const userMessage = {
+      id: Date.now(),
+      text: text,
+      sender: 'user',
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
+
+    try {
+      // Always try AI response first
+      const aiResponse = await getAIResponse(text);
+      
       setTimeout(() => {
         const botResponse = {
-          id: messages.length + 2,
-          text: getBotResponse(text),
+          id: Date.now() + 1,
+          text: aiResponse,
           sender: 'bot',
           timestamp: new Date()
         };
         setMessages(prev => [...prev, botResponse]);
         setIsTyping(false);
-      }, 1000);
-    }, 100);
+      }, 500); // Small delay for better UX
+      
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      
+      setTimeout(() => {
+        const errorResponse = {
+          id: Date.now() + 1,
+          text: getEmergencyFallback(),
+          sender: 'bot',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, errorResponse]);
+        setIsTyping(false);
+        
+        // Try to reconnect after failure
+        checkAIServiceHealth();
+      }, 500);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -126,8 +253,13 @@ const Chatbot = () => {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold">Career Assistant</h3>
-                <p className="text-xs text-blue-100">Online • Typically replies instantly</p>
+                <h3 className="font-semibold">Trợ lý AI Tuyển dụng</h3>
+                <div className="flex items-center space-x-2">
+                  <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                  <p className="text-xs text-blue-100">
+                    {isConnected ? 'AI đã sẵn sàng • Phản hồi thông minh' : 'Chế độ cơ bản • AI không khả dụng'}
+                  </p>
+                </div>
               </div>
             </div>
             <button

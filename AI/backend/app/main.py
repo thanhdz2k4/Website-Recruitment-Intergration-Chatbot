@@ -2,11 +2,17 @@
 Simple Flask app for AI Recruitment System
 """
 from flask import Flask, jsonify, request, render_template, send_from_directory, session
+from flask_cors import CORS
 import os
 import sys
 import time
 import uuid
 from datetime import datetime
+
+# Add backend to path BEFORE importing backend modules
+backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, backend_path)
+
 from llms.ollama_llms import OllamaLLMs
 from chatbot.ChatbotOllama import ChatbotOllama
 import logging
@@ -21,6 +27,12 @@ else:
 
 app = Flask(__name__, template_folder=template_folder)
 app.secret_key = os.getenv('SECRET_KEY', 'your-secret-key-change-in-production')
+
+# Enable CORS for all routes
+CORS(app, origins=['http://localhost:3000', 'http://127.0.0.1:3000'], 
+     supports_credentials=True,
+     allow_headers=['Content-Type', 'Authorization', 'Access-Control-Allow-Credentials'],
+     methods=['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -133,7 +145,20 @@ def health_check():
     return jsonify({
         "status": "healthy",
         "service": "AI Recruitment Agent",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "timestamp": time.time(),
+        "cors_enabled": True
+    })
+
+
+@app.route('/api/test', methods=['GET', 'POST'])
+def test_endpoint():
+    """Simple test endpoint for debugging connectivity"""
+    return jsonify({
+        "message": "Connection successful!",
+        "method": request.method,
+        "timestamp": time.time(),
+        "origin": request.headers.get('Origin', 'unknown')
     })
 
 
