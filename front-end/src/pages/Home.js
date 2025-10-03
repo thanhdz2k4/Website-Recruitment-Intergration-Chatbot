@@ -16,10 +16,10 @@ const Home = () => {
   });
 
   const jobCategories = [
-    ['Aviation', 'Accountancy', 'Administration', 'Advertising', 'Agriculture'],
-    ['Apprenticeships', 'Army', 'Automotive', 'Banking', 'Catering'],
-    ['Charity', 'Civil service', 'Cleaning', 'Construction', 'Consulting'],
-    ['Counselling', 'Creative', 'Customer services', 'Driving', 'Education']
+    ['Hàng không', 'Kế toán', 'Hành chính', 'Quảng cáo', 'Nông nghiệp'],
+    ['Thực tập sinh', 'Quân đội', 'Ô tô', 'Ngân hàng', 'Nhà hàng'],
+    ['Từ thiện', 'Công vụ', 'Vệ sinh', 'Xây dựng', 'Tư vấn'],
+    ['Tâm lý', 'Sáng tạo', 'Dịch vụ khách hàng', 'Lái xe', 'Giáo dục']
   ];
 
   const featuredCompanies = [
@@ -34,25 +34,25 @@ const Home = () => {
   const testimonials = [
     {
       name: "Sarah Johnson",
-      role: "Software Engineer",
+      role: "Kỹ sư phần mềm",
       company: "TechCorp",
-      content: "Found my dream job in just 2 weeks! The AI matching was incredibly accurate.",
+      content: "Tìm được công việc mơ ước chỉ trong 2 tuần! Tính năng AI matching cực kỳ chính xác.",
       avatar: "SJ",
       rating: 5
     },
     {
       name: "Michael Chen",
-      role: "Marketing Manager", 
+      role: "Quản lý Marketing", 
       company: "FinancePro",
-      content: "The platform made job searching so much easier. Highly recommended!",
+      content: "Nền tảng này giúp việc tìm việc dễ dàng hơn rất nhiều. Rất đáng để thử!",
       avatar: "MC",
       rating: 5
     },
     {
       name: "Emily Rodriguez",
-      role: "UX Designer",
+      role: "Nhà thiết kế UX",
       company: "StartupHub",
-      content: "Amazing experience! The video CV feature really helped me stand out.",
+      content: "Trải nghiệm tuyệt vời! Tính năng CV video thực sự giúp tôi nổi bật.",
       avatar: "ER",
       rating: 5
     }
@@ -60,20 +60,20 @@ const Home = () => {
 
   const faqs = [
     {
-      question: "How does the AI job matching work?",
-      answer: "Our AI analyzes your skills, experience, and preferences to match you with relevant job opportunities from our database of thousands of positions."
+      question: "Tính năng AI matching việc làm hoạt động như thế nào?",
+      answer: "AI của chúng tôi phân tích kỹ năng, kinh nghiệm và sở thích của bạn để kết nối bạn với các cơ hội việc làm phù hợp từ cơ sở dữ liệu hàng nghìn vị trí."
     },
     {
-      question: "Is it free to use?",
-      answer: "Yes! Basic job searching and CV upload is completely free. Premium features are available for advanced matching and priority applications."
+      question: "Có miễn phí không?",
+      answer: "Có! Tìm kiếm việc làm cơ bản và tải CV hoàn toàn miễn phí. Các tính năng cao cấp có sẵn cho matching nâng cao và ứng tuyển ưu tiên."
     },
     {
-      question: "How do I upload a video CV?",
-      answer: "Simply go to your profile, click 'Upload Video CV', and record a 2-minute video introducing yourself and highlighting your key skills."
+      question: "Làm thế nào để tải CV video lên?",
+      answer: "Chỉ cần vào hồ sơ của bạn, nhấp 'Tải CV Video', và quay video 2 phút giới thiệu bản thân và làm nổi bật các kỹ năng chính của bạn."
     },
     {
-      question: "Can employers see my profile?",
-      answer: "Only if you choose to make it public. You have full control over your privacy settings and can choose who can view your profile."
+      question: "Nhà tuyển dụng có thể xem hồ sơ của tôi không?",
+      answer: "Chỉ khi bạn chọn công khai. Bạn có toàn quyền kiểm soát cài đặt quyền riêng tư và có thể chọn ai được xem hồ sơ của bạn."
     }
   ];
 
@@ -163,14 +163,14 @@ const Home = () => {
             }`}
           >
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent">
-              Join the next generation of jobhunters and Upload your Video CV now!
+              Tham gia thế hệ người tìm việc mới và Tải CV của bạn ngay!
             </h1>
             <p className="text-xl md:text-2xl mb-8 text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Increase your chances and let employers find you with our AI-powered matching system
+              Tăng cơ hội của bạn và để nhà tuyển dụng tìm thấy bạn với hệ thống matching AI của chúng tôi
             </p>
             <button className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl group backdrop-blur-sm bg-opacity-80">
               <span className="flex items-center">
-                Register For Free
+                Đăng ký miễn phí
                 <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -192,8 +192,8 @@ const Home = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Find Your Dream Job</h2>
-            <p className="text-gray-600 text-lg">Search through thousands of opportunities</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Tìm công việc mơ ước</h2>
+            <p className="text-gray-600 text-lg">Tìm kiếm qua hàng nghìn cơ hội việc làm</p>
           </div>
           
           <form onSubmit={handleSearch} className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
@@ -207,7 +207,7 @@ const Home = () => {
                 <input
                   type="text"
                   name="keywords"
-                  placeholder="Keywords/job title"
+                  placeholder="Từ khóa/chức danh"
                   value={searchData.keywords}
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-400"
@@ -223,7 +223,7 @@ const Home = () => {
                 <input
                   type="text"
                   name="location"
-                  placeholder="Location"
+                  placeholder="Địa điểm"
                   value={searchData.location}
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-400"
@@ -241,11 +241,11 @@ const Home = () => {
                   onChange={handleInputChange}
                   className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-400 appearance-none bg-white"
                 >
-                  <option value="">Distance</option>
-                  <option value="5">5 miles</option>
-                  <option value="10">10 miles</option>
-                  <option value="25">25 miles</option>
-                  <option value="50">50 miles</option>
+                  <option value="">Khoảng cách</option>
+                  <option value="5">5 km</option>
+                  <option value="10">10 km</option>
+                  <option value="25">25 km</option>
+                  <option value="50">50 km</option>
                 </select>
               </div>
               <div>
@@ -254,7 +254,7 @@ const Home = () => {
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl group"
                 >
                   <span className="flex items-center justify-center">
-                    Find jobs
+                    Tìm việc làm
                     <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -267,7 +267,7 @@ const Home = () => {
                 type="button"
                 className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-300"
               >
-                Advanced filters
+                Bộ lọc nâng cao
               </button>
             </div>
           </form>
@@ -285,20 +285,20 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Browse Jobs
+              Duyệt việc làm
             </h2>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Discover opportunities across different industries and locations
+              Khám phá cơ hội việc làm từ các ngành nghề và địa điểm khác nhau
             </p>
           </div>
           
           {/* Tabs */}
           <div className="flex flex-wrap justify-center mb-12">
             {[
-              { id: 'industry', label: 'Jobs by Industry', icon: '🏭' },
-              { id: 'location', label: 'Jobs by Location', icon: '📍' },
-              { id: 'popular', label: 'Popular Jobs', icon: '🔥' },
-              { id: 'company', label: 'Jobs by Company', icon: '🏢' }
+              { id: 'industry', label: 'Việc theo ngành', icon: '🏭' },
+              { id: 'location', label: 'Việc theo địa điểm', icon: '📍' },
+              { id: 'popular', label: 'Việc phổ biến', icon: '🔥' },
+              { id: 'company', label: 'Việc theo công ty', icon: '🏢' }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -350,9 +350,9 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured Companies
+              Công ty nổi bật
             </h2>
-            <p className="text-gray-600 text-lg">Trusted by leading organizations worldwide</p>
+            <p className="text-gray-600 text-lg">Được tin tưởng bởi các tổ chức hàng đầu trên toàn thế giới</p>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
@@ -375,7 +375,7 @@ const Home = () => {
                   </div>
                   <span className="text-sm text-gray-600 ml-1">{company.rating}</span>
                 </div>
-                <p className="text-sm text-gray-500">{company.jobs} jobs</p>
+                <p className="text-sm text-gray-500">{company.jobs} việc làm</p>
               </div>
             ))}
           </div>
@@ -383,7 +383,7 @@ const Home = () => {
           <div className="text-center">
             <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 group">
               <span className="flex items-center">
-                Load more (15/30)
+                Xem thêm (15/30)
                 <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -407,16 +407,16 @@ const Home = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  Register your CV
+                  Đăng ký CV của bạn
                 </h2>
                 <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                  Join thousands of job seekers who have found their dream jobs through our platform. 
-                  Upload your CV and let top employers discover your potential. Get personalized job 
-                  recommendations and never miss an opportunity.
+                  Tham gia cùng hàng nghìn người tìm việc đã tìm được công việc mơ ước qua nền tảng của chúng tôi. 
+                  Tải CV của bạn lên và để các nhà tuyển dụng hàng đầu khám phá tiềm năng của bạn. Nhận gợi ý việc làm 
+                  cá nhân hóa và không bỏ lỡ bất kỳ cơ hội nào.
                 </p>
                 <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 group">
                   <span className="flex items-center">
-                    Subscribe Now
+                    Đăng ký ngay
                     <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -425,14 +425,14 @@ const Home = () => {
               </div>
               <div className="hidden lg:block">
                 <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">What you get:</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">Những gì bạn nhận được:</h3>
                   <div className="space-y-4">
                     {[
-                      { text: 'Instant job matching', icon: '⚡' },
-                      { text: 'Email notifications', icon: '📧' },
-                      { text: 'Career advice', icon: '💡' },
-                      { text: 'Priority applications', icon: '⭐' },
-                      { text: 'Video CV support', icon: '🎥' }
+                      { text: 'Matching việc làm tức thì', icon: '⚡' },
+                      { text: 'Thông báo qua email', icon: '📧' },
+                      { text: 'Tư vấn nghề nghiệp', icon: '💡' },
+                      { text: 'Ứng tuyển ưu tiên', icon: '⭐' },
+                      { text: 'Hỗ trợ CV video', icon: '🎥' }
                     ].map((item, index) => (
                       <div key={index} className="flex items-center space-x-3 group">
                         <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
@@ -461,16 +461,16 @@ const Home = () => {
           <div className="max-w-4xl w-full">
             <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-3xl p-8 md:p-12 text-white text-center border border-white border-opacity-20">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Recruiting?
+                Đang tuyển dụng?
               </h2>
               <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Find the best talent for your company. Post jobs, search our database of qualified 
-                candidates, and connect with top professionals in your industry. Join thousands of 
-                companies that trust us for their hiring needs.
+                Tìm nhân tài tốt nhất cho công ty của bạn. Đăng tin tuyển dụng, tìm kiếm trong cơ sở dữ liệu 
+                ứng viên có trình độ, và kết nối với các chuyên gia hàng đầu trong ngành của bạn. Tham gia cùng 
+                hàng nghìn công ty tin tưởng chúng tôi cho nhu cầu tuyển dụng của họ.
               </p>
               <button className="bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-blue-50 transition-all duration-300 font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 group">
                 <span className="flex items-center">
-                  Start recruiting now
+                  Bắt đầu tuyển dụng ngay
                   <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -485,4 +485,3 @@ const Home = () => {
 };
 
 export default Home;
-
