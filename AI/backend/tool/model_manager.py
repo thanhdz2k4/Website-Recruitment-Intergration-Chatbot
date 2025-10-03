@@ -86,7 +86,7 @@ class ModelManager:
         Lấy LLM model từ cache (có thể extend cho Ollama, etc.)
         """
         if model_name is None:
-            model_name = self.settings.RAG_MODEL_ID
+            model_name = self.settings.OLLAMA_MODEL
             
         cache_key = f"llm_{model_name}"
         
@@ -95,7 +95,7 @@ class ModelManager:
             # TODO: Implement LLM loading logic
             # Ví dụ cho Ollama client
             from llms.ollama_llms import OllamaLLMs
-            llm_model = OllamaLLMs(model_name=model_name)
+            llm_model = OllamaLLMs(base_url=self.settings.OLLAMA_BASE_URL, model_name=model_name)
             self.models_cache[cache_key] = llm_model
             print(f"✅ LLM model cached: {model_name}")
         else:

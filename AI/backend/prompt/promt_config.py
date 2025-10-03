@@ -241,6 +241,26 @@ Trả lời:
             Người dùng: "{user_input}"
             """
           ),
+          
+          "intent_company_info": (
+    """
+    Bạn là một chatbot tuyển dụng. Người dùng có thể hỏi về thông tin của một công ty cụ thể.
+    Bạn được cung cấp một danh sách các công ty và ngành nghề tương ứng.
+    Nhiệm vụ:
+    - Xác định công ty phù hợp với câu hỏi của người dùng (dựa trên tên công ty hoặc ngành nghề).
+    - Trả về thông tin chi tiết về công ty đó với định dạng Markdown gọn gàng, dễ nhìn.
+    - Không dùng *** hoặc ** để in đậm.
+    - Luôn có phần mô tả tóm tắt cuối cùng.
+
+    Dữ liệu công ty:
+    {data}
+
+    Người dùng: "{user_input}"
+    Nếu bạn muốn biết thêm thông tin về công ty khác hoặc tìm kiếm theo ngành nghề, hãy cho tôi biết!
+    ---
+    """
+)
+
 
         }
 
