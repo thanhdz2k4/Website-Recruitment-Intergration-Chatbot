@@ -277,14 +277,22 @@ const JobListings = () => {
           <div className="bg-red-50 text-red-700 p-3 rounded-lg border border-red-200">{error}</div>
         </div>
       )}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-700 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+      <section className="relative bg-gradient-to-br from-blue-300 via-purple-200 to-blue-100 py-16 overflow-hidden">
+        {/* Background patterns and blobs */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center bg-gradient-to-r from-gray-900 to-blue-900 bg-clip-text text-transparent">
             Tìm kiếm công việc mơ ước
           </h1>
           
-          <div className="bg-white p-6 rounded-2xl shadow-xl">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="bg-white bg-opacity-90 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -298,7 +306,7 @@ const JobListings = () => {
                   value={searchData.keywords}
                   onChange={handleInputChange}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-400"
                 />
               </div>
               
@@ -316,7 +324,7 @@ const JobListings = () => {
                   value={searchData.location}
                   onChange={handleInputChange}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-400"
                 />
               </div>
               
@@ -330,7 +338,7 @@ const JobListings = () => {
                   name="distance"
                   value={searchData.distance}
                   onChange={handleInputChange}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                  className="w-full pl-10 pr-4 py-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all duration-300 hover:border-blue-400"
                 >
                   <option value="">Khoảng cách</option>
                   <option value="5">5 km</option>
@@ -342,9 +350,14 @@ const JobListings = () => {
               
               <button
                 onClick={handleSearch}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg"
+                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold transform hover:scale-105 shadow-xl hover:shadow-2xl group backdrop-blur-sm"
               >
-                Tìm kiếm
+                <span className="flex items-center justify-center">
+                  Tìm kiếm
+                  <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
               </button>
             </div>
           </div>
