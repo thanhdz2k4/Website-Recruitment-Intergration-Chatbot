@@ -19,53 +19,56 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Search Bar and Navigation */}
+          {/* Thanh tìm kiếm và Điều hướng */}
           <div className="hidden md:flex items-center flex-grow mx-8">
-            {/* Search Bar */}
+            {/* Thanh tìm kiếm */}
             <div className="flex-grow max-w-2xl">
               <input
                 type="text"
-                placeholder="Search for jobs..."
+                placeholder="Tìm kiếm việc làm..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             
-            {/* Desktop Navigation */}
+            {/* Menu máy tính */}
             <nav className="ml-8 flex space-x-6">
               <a 
                 href="/" 
-                className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                className="text-white hover:text-blue-200 px-3 py-2 text-sm font-medium relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-white hover:after:w-full after:transition-all after:duration-300"
               >
-                Home
+                Trang Chủ
               </a>
               <a 
-                href="/employers" 
-                className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                href="/company" 
+                className="text-white hover:text-blue-200 px-3 py-2 text-sm font-medium relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-white hover:after:w-full after:transition-all after:duration-300"
               >
-                Employers
+                Công Ty
               </a>
               <a 
-                href="/career-advice" 
-                className="text-white hover:text-blue-200 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                href="/job" 
+                className="text-white hover:text-blue-200 px-3 py-2 text-sm font-medium relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-white hover:after:w-full after:transition-all after:duration-300"
               >
-                Career Advice
+                Việc làm
               </a>
             </nav>
           </div>
 
-          {/* Desktop Auth Buttons */}
+          {/* Nút đăng nhập máy tính */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/register" className="text-white hover:text-blue-200 px-3 py-2 text-sm font-medium transition-colors duration-200">
-              Register your CV
+            <a 
+              href="/register" 
+              className="text-white hover:text-blue-200 px-3 py-2 text-sm font-medium relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-white hover:after:w-full after:transition-all after:duration-300"
+            >
+              Đã ứng tuyển
             </a>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200">
-              Login
+            <button className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:shadow-lg">
+              Đăng Nhập
             </button>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Nút menu điện thoại */}
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
@@ -82,15 +85,15 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* Menu điện thoại */}
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-700 rounded-lg mt-2">
-              {/* Mobile Search Bar */}
+              {/* Thanh tìm kiếm điện thoại */}
               <div className="px-3 py-2">
                 <input
                   type="text"
-                  placeholder="Search for jobs..."
+                  placeholder="Tìm kiếm việc làm..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -101,29 +104,29 @@ const Header = () => {
                 href="/" 
                 className="text-white hover:text-blue-200 block px-3 py-2 rounded-md text-base font-medium"
               >
-                Home
+                Trang Chủ
               </a>
               <a 
-                href="/employers" 
+                href="/company" 
                 className="text-white hover:text-blue-200 block px-3 py-2 rounded-md text-base font-medium"
               >
-                Employers
+                Công Ty
               </a>
               <a 
-                href="/career-advice" 
+                href="/job" 
                 className="text-white hover:text-blue-200 block px-3 py-2 rounded-md text-base font-medium"
               >
-                Career Advice
+                Việc làm
               </a>
               
-              {/* Mobile Auth Buttons */}
+              {/* Nút đăng nhập điện thoại */}
               <div className="pt-4 pb-3 border-t border-blue-500">
                 <div className="flex flex-col space-y-2">
                   <a href="/register" className="text-white hover:text-blue-200 px-3 py-2 text-base font-medium">
-                    Register your CV
+                    Đã ứng tuyển
                   </a>
                   <button className="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium">
-                    Login
+                    Đăng Nhập
                   </button>
                 </div>
               </div>

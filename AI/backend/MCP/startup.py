@@ -12,6 +12,7 @@ sys.path.insert(0, str(backend_dir))
 
 from setting import Settings
 from tool.model_manager import model_manager
+from tool.embeddings.company import sync_company_embeddings
 from llms.ollama_llms import OllamaLLMs
 
 def startup_optimization():
@@ -30,16 +31,28 @@ def startup_optimization():
         
         # Preload embedding model và semantic router
         model_manager.preload_models()
+
+        # Đồng bộ embeddings công ty vào Qdrant
+        try:
+            sync_summary = sync_company_embeddings(
+                settings=settings,
+                limit=settings.BATCH_SIZE * 10 if hasattr(settings, "BATCH_SIZE") else None,
+            )
+            upserted = sync_summary.get("upserted", 0)
+            collection = sync_summary.get("collection")
+            print(f"✅ Company embeddings synced: {upserted} items into '{collection}'")
+        except Exception as e:
+            print(f"⚠️ Company embedding sync skipped: {e}")
         
         # Preload và warm-up Ollama model
         try:
             ollama_model = OllamaLLMs(
                 base_url=settings.OLLAMA_BASE_URL,
-                model_name=settings.RAG_MODEL_ID.split("/")[-1].split(":")[0]  # Extract model name
+                model_name=settings.OLLAMA_MODEL
             )
             # Set keep-alive để model không bị unload
             ollama_model.keep_alive(settings.MODEL_KEEP_ALIVE)
-            print(f"✅ Ollama model warmed up: {settings.RAG_MODEL_ID}")
+            print(f"✅ Ollama model warmed up: {settings.OLLAMA_MODEL}")
         except Exception as e:
             print(f"⚠️ Ollama warm-up failed: {e}")
         

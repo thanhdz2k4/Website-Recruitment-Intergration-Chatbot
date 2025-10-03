@@ -6,15 +6,19 @@ import re
 
 from llms.ollama_llms import OllamaLLMs
 from prompt.promt_config import PromptConfig
+from setting import Settings
 
 
 class ExtractFeatureQuestion:
-    def __init__(self, model_name: str, validate_response: list = ["title", "skills", "company", "location", "experience", "description"]):
+    def __init__(self, model_name: str = "", validate_response: list = ["title", "skills", "company", "location", "experience", "description"]):
         self.valid_fields = validate_response
+
+        settings = Settings.load_settings()
         default_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") == "true" else "http://localhost:11434"
-        ollama_url = os.getenv("OLLAMA_URL", default_url)
-        model_name = os.getenv("OLLAMA_MODEL", "hf.co/Cactus-Compute/Qwen3-1.7B-Instruct-GGUF:Q4_K_M")
-        self.llm = OllamaLLMs(base_url=ollama_url, model_name=model_name)
+        ollama_url = os.getenv("OLLAMA_URL", settings.OLLAMA_BASE_URL or default_url)
+        resolved_model = model_name or settings.OLLAMA_MODEL
+
+        self.llm = OllamaLLMs(base_url=ollama_url, model_name=resolved_model)
 
 
     def extract(self, query: str, prompt_type: str) -> str:

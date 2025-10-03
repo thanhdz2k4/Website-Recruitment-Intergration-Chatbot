@@ -3,32 +3,32 @@ import React from 'react';
 const Footer = () => {
   const footerLinks = {
     company: [
-      { name: 'About Us', href: '/about' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'Careers', href: '/careers' },
-      { name: 'Press', href: '/press' },
-      { name: 'Blog', href: '/blog' }
+      { name: 'Về Chúng Tôi', href: '/about' },
+      { name: 'Liên Hệ', href: '/contact' },
+      { name: 'Cơ Hội Nghề Nghiệp', href: '/careers' },
+      { name: 'Báo Chí', href: '/press' },
+      { name: 'Tin Tức', href: '/blog' }
     ],
     jobSeekers: [
-      { name: 'Browse Jobs', href: '/jobs' },
-      { name: 'Job Alerts', href: '/job-alerts' },
-      { name: 'Career Advice', href: '/career-advice' },
-      { name: 'Upload CV', href: '/upload-cv' },
-      { name: 'Salary Guide', href: '/salary' }
+      { name: 'Tìm Việc Làm', href: '/jobs' },
+      { name: 'Thông Báo Việc Làm', href: '/job-alerts' },
+      { name: 'Tư Vấn Nghề Nghiệp', href: '/career-advice' },
+      { name: 'Tải CV Lên', href: '/upload-cv' },
+      { name: 'Thông Tin Lương', href: '/salary' }
     ],
     employers: [
-      { name: 'Post a Job', href: '/post-job' },
-      { name: 'Search CVs', href: '/search-cvs' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Employer Resources', href: '/resources' },
-      { name: 'Video Recruiting', href: '/video-recruiting' }
+      { name: 'Đăng Tin Tuyển Dụng', href: '/post-job' },
+      { name: 'Tìm Kiếm CV', href: '/search-cvs' },
+      { name: 'Bảng Giá', href: '/pricing' },
+      { name: 'Tài Nguyên HR', href: '/resources' },
+      { name: 'Tuyển Dụng Video', href: '/video-recruiting' }
     ],
     support: [
-      { name: 'Help Center', href: '/help' },
-      { name: 'FAQs', href: '/faq' },
-      { name: 'Terms of Service', href: '/terms' },
-      { name: 'Privacy Policy', href: '/privacy' },
-      { name: 'Cookie Policy', href: '/cookies' }
+      { name: 'Trung Tâm Hỗ Trợ', href: '/help' },
+      { name: 'Câu Hỏi Thường Gặp', href: '/faq' },
+      { name: 'Điều Khoản Dịch Vụ', href: '/terms' },
+      { name: 'Chính Sách Bảo Mật', href: '/privacy' },
+      { name: 'Chính Sách Cookie', href: '/cookies' }
     ]
   };
 
@@ -51,7 +51,7 @@ const Footer = () => {
                 <span className="text-white font-bold text-lg">JobVip</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Connecting talented professionals with their dream careers through innovative AI-powered matching.
+                Kết nối người tài với công việc mơ ước thông qua công nghệ tuyển dụng AI tiên tiến.
               </p>
             </div>
             <div className="flex space-x-4">
@@ -72,7 +72,7 @@ const Footer = () => {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Company</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Công Ty</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
@@ -90,7 +90,7 @@ const Footer = () => {
 
           {/* Job Seekers Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Job Seekers</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Người Tìm Việc</h3>
             <ul className="space-y-3">
               {footerLinks.jobSeekers.map((link, index) => (
                 <li key={index}>
@@ -108,7 +108,7 @@ const Footer = () => {
 
           {/* Employers Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Employers</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Nhà Tuyển Dụng</h3>
             <ul className="space-y-3">
               {footerLinks.employers.map((link, index) => (
                 <li key={index}>
@@ -126,7 +126,7 @@ const Footer = () => {
 
           {/* Support Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-white">Support</h3>
+            <h3 className="text-lg font-semibold mb-4 text-white">Hỗ Trợ</h3>
             <ul className="space-y-3">
               {footerLinks.support.map((link, index) => (
                 <li key={index}>
@@ -143,44 +143,24 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="bg-gradient-to-r from-blue-900 to-blue-800 rounded-2xl p-8 mb-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold text-white mb-2">Stay Updated</h3>
-              <p className="text-blue-200 text-sm">Subscribe to get the latest job opportunities and career tips</p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-400 w-full sm:w-64"
-              />
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 whitespace-nowrap">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm text-center md:text-left">
-              © 2025 JobPortal. All rights reserved. Designed with ❤️ for job seekers worldwide.
+              © 2025 JobVip. Đã đăng ký bản quyền. Thiết kế với ❤️ dành cho người tìm việc trên toàn quốc.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
               <a href="/terms" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
-                Terms
+                Điều khoản
               </a>
               <a href="/privacy" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
-                Privacy
+                Bảo mật
               </a>
               <a href="/cookies" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
                 Cookies
               </a>
               <a href="/sitemap" className="text-gray-400 hover:text-blue-400 text-sm transition-colors duration-300">
-                Sitemap
+                Sơ đồ trang
               </a>
             </div>
           </div>

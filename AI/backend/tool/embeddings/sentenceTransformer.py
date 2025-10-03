@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer
 
 class SentenceTransformerEmbedding(BaseEmbedding):
     def __init__(self, config: EmbeddingConfig):
-        super().__init__(config.name)
+        super().__init__(Settings=config)
         self.config = config
         self.embedding_model = SentenceTransformer(self.config.name, trust_remote_code=True)
 

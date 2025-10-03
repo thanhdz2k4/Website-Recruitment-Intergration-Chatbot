@@ -1,35 +1,34 @@
 
 import os
 import logging
-from typing import List, Dict, Union, Callable, Any, Optional
 from .base import BaseChatbot
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from llms.llm_manager import llm_manager
-from llms.tools import list_available_tools
-from MCP.server import server, intent_classification, enhance_question, get_reflection
 from prompt.promt_config import PromptConfig
 from tool.extract_feature_question_about_jd import ExtractFeatureQuestion
+from MCP import get_reflection, retrive_infor_company
+from setting import Settings
 
 class ChatbotOllama(BaseChatbot):
     def __init__(self, model_name: str = "", **kwargs):
-        super().__init__(model_name=model_name, **kwargs)
-        
+        settings = Settings.load_settings()
+        resolved_model = model_name or settings.OLLAMA_MODEL
+
+        super().__init__(model_name=resolved_model, **kwargs)
+
         default_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") == "true" else "http://localhost:11434"
-        ollama_url = os.getenv("OLLAMA_URL", default_url)
-        ollama_model = os.getenv("OLLAMA_MODEL", "")
-        
-        logging.info(f"Initializing Ollama client with URL: {ollama_url}, Model: {ollama_model}")
-        
+        ollama_url = os.getenv("OLLAMA_URL", settings.OLLAMA_BASE_URL or default_url)
+
         # Sử dụng LLM Manager để tránh tạo multiple instances
         self.client = llm_manager.get_ollama_client(
             base_url=ollama_url,
-            model_name=ollama_model
+            model_name=resolved_model
         )
         
         # Initialize the feature extractor (chỉ tạo khi cần)
         self._feature_extractor = None
-        self._ollama_model = ollama_model
+        self._ollama_model = resolved_model
         
         # Initialize prompt config
         self.prompt_config = PromptConfig()
@@ -67,6 +66,8 @@ class ChatbotOllama(BaseChatbot):
             
 
             summarise_convervation = get_reflection(messages)
+            self.clear_conversation_state()  # Clear state before processing new message
+            self.add_user_message(summarise_convervation)  # Add summarized message to history
             classification_prompt = self.prompt_config.get_prompt("classification_chat_intent", user_input=summarise_convervation)
             intent = self._strip_think(self.client.generate_content([{"role": "user", "content": classification_prompt}]))
             print(f"Intent classified as: {intent}")
@@ -131,8 +132,10 @@ class ChatbotOllama(BaseChatbot):
                 
             elif intent == "intent_company_info":
                 # Handle company information requests
-                assistant_response = "Bạn muốn tìm hiểu thông tin về công ty nào? Hãy cho tôi biết tên công ty và tôi sẽ cung cấp thông tin chi tiết."
-                self.add_assistant_message(self._strip_think(assistant_response))
+                data_company = retrive_infor_company(summarise_convervation)
+                prompt_company = self.prompt_config.get_prompt("intent_company_info", user_input=summarise_convervation, data = data_company)
+                assistant_response = self._strip_think(self.client.generate_content([{"role": "user", "content": prompt_company}]))
+                self.add_assistant_message(assistant_response)
                 return assistant_response
                 
             elif intent == "intent_guide":

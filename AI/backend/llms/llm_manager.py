@@ -6,6 +6,7 @@ import os
 import logging
 from typing import Dict, Optional, Any
 from .ollama_llms import OllamaLLMs
+from setting import Settings
 
 try:
     from sentence_transformers import SentenceTransformer
@@ -47,13 +48,15 @@ class LLMManager:
         Returns:
             OllamaLLMs: Cached or new instance
         """
+        settings = Settings.load_settings()
+
         # Use environment defaults if not provided
-        if base_url is None:
+        if not base_url:
             default_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") == "true" else "http://localhost:11434"
-            base_url = os.getenv("OLLAMA_URL", default_url)
+            base_url = os.getenv("OLLAMA_URL", settings.OLLAMA_BASE_URL or default_url)
         
-        if model_name is None:
-            model_name = os.getenv("OLLAMA_MODEL", "hf.co/Cactus-Compute/Qwen3-1.7B-Instruct-GGUF:Q4_K_M")
+        if not model_name:
+            model_name = settings.OLLAMA_MODEL
         
         # Create instance key
         instance_key = f"{base_url}#{model_name}"
