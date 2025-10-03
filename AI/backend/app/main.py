@@ -13,8 +13,9 @@ from datetime import datetime
 backend_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, backend_path)
 
-from llms.ollama_llms import OllamaLLMs
 from chatbot.ChatbotOllama import ChatbotOllama
+from setting import Settings
+from tool.embeddings import sync_company_embeddings
 import logging
 
 # Determine template folder path based on environment
@@ -40,25 +41,20 @@ logger = logging.getLogger(__name__)
 
 # Initialize LLM client using LLM Manager
 def initialize_llm_client():
+    from setting import Settings
+
+    settings = Settings.load_settings()
+    default_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") == "true" else "http://localhost:11434"
+    ollama_url = os.getenv("OLLAMA_URL", settings.OLLAMA_BASE_URL or default_url)
+
     try:
         # Import LLM Manager
         from llms.llm_manager import llm_manager
-        
-        # For Docker containers, use host.docker.internal to reach host machine
-        default_url = "http://host.docker.internal:11434" if os.getenv("DOCKER_ENV") == "true" else "http://localhost:11434"
-        ollama_url = os.getenv("OLLAMA_URL", default_url)
-        model_name = os.getenv("OLLAMA_MODEL", "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M")
-        
-        logger.info(f"Initializing Ollama client with URL: {ollama_url}, Model: {model_name}")
-        
-        # Setup environment for ChatbotOllama
-        os.environ["OLLAMA_URL"] = ollama_url
-        os.environ["OLLAMA_MODEL"] = model_name
-        
+
         # Use LLM Manager để tránh multiple instances
         client = llm_manager.get_ollama_client(
             base_url=ollama_url,
-            model_name=model_name
+            model_name=settings.OLLAMA_MODEL
         )
         
         # Simple connection test without generating content
@@ -76,11 +72,29 @@ def initialize_llm_client():
         # Fallback to direct creation if manager fails
         from llms.ollama_llms import OllamaLLMs
         return OllamaLLMs(
-            base_url=os.getenv("OLLAMA_URL", "http://localhost:11434"),
-            model_name=os.getenv("OLLAMA_MODEL", "hf.co/unsloth/Qwen3-4B-Instruct-2507-GGUF:Q4_K_M")
+            base_url=ollama_url,
+            model_name=settings.OLLAMA_MODEL
         )
 
 llm_client = initialize_llm_client()
+
+
+def sync_company_embeddings_on_startup():
+    """Ensure company embeddings are refreshed when the app starts."""
+    try:
+        settings = Settings.load_settings()
+        summary = sync_company_embeddings(settings=settings)
+        logger.info(
+            "Company embedding sync completed: status=%s collection=%s upserted=%s",
+            summary.get("status"),
+            summary.get("collection"),
+            summary.get("upserted"),
+        )
+    except Exception as exc:  # pragma: no cover - startup resilience
+        logger.warning("Company embedding sync skipped: %s", exc)
+
+
+sync_company_embeddings_on_startup()
 
 # Dictionary to store chatbot instances for each user session
 user_chatbots = {}

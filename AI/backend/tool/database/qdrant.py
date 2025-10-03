@@ -3,9 +3,9 @@ from qdrant_client.models import Distance, VectorParams
 
 
 class QDrant():
-    def __init__(self, url: str, api_key: str):
-        self.url = url
-        self.api_key = api_key
+    def __init__(self, Settings=None):
+        self.url = Settings.QDRANT_URL
+        self.api_key = Settings.QDRANT_API_KEY
         # Disable compatibility check and set timeout for better error handling
         try:
             self.client = QdrantClient(
@@ -96,10 +96,14 @@ class QDrant():
         
     def search_vectors(self, collection_name: str, query_vector: list, top_k: int):
         results = self.client.search(
-            collection_name=collection_name,
-            query_vector=query_vector,
-            limit=top_k
-        )
+        collection_name=collection_name,
+        query_vector=query_vector,
+        limit=top_k,
+        search_params={
+            "hnsw_ef": 128,   # tăng độ chính xác (default thường 16-64)
+            "exact": False     # nếu True => brute-force, chính xác tuyệt đối nhưng chậm
+        }
+    )
         return results
     
     def delete_collection(self, collection_name: str):

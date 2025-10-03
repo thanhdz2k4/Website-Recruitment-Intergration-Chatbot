@@ -125,6 +125,7 @@ CREATE TABLE job_posting_skill (
 -- ========================
 -- 13. Bảng cv
 -- ========================
+
 CREATE TABLE cv (
     cv_id SERIAL PRIMARY KEY,
     account_id INT NOT NULL REFERENCES account(account_id),
