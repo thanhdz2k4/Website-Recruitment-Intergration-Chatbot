@@ -1,16 +1,16 @@
 
 import os
 import logging
-from .base import BaseChatbot
+from .base import BaseAI
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
+from setting import Settings
 from llms.llm_manager import llm_manager
 from prompt.promt_config import PromptConfig
-from tool.extract_feature_question_about_jd import ExtractFeatureQuestion
 from MCP import get_reflection, retrive_infor_company
-from setting import Settings
 
-class ChatbotOllama(BaseChatbot):
+
+class ChatbotOllama(BaseAI):
     def __init__(self, model_name: str = "", **kwargs):
         settings = Settings.load_settings()
         resolved_model = model_name or settings.OLLAMA_MODEL
@@ -32,13 +32,7 @@ class ChatbotOllama(BaseChatbot):
         
         # Initialize prompt config
         self.prompt_config = PromptConfig()
-    
-    @property
-    def feature_extractor(self):
-        """Lazy loading cho feature extractor"""
-        if self._feature_extractor is None:
-            self._feature_extractor = ExtractFeatureQuestion(model_name=self._ollama_model)
-        return self._feature_extractor
+
     
     def _strip_think(self, text: str) -> str:
         """Remove <think>...</think> sections and trim whitespace."""

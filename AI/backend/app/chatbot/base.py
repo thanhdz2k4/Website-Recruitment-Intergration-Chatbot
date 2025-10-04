@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, List
 
 
-class BaseChatbot(ABC):
+class BaseAI(ABC):
     def __init__(self, model_name: str = None, **kwargs):
         self.model_name = model_name
         self.conversation_history = []

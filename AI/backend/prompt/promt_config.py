@@ -6,7 +6,7 @@ class PromptConfig:
                 "and responsibilities required for the role:\n\n{job_description}\n\n"
                 "Provide a summary in bullet points."
             ),
-            "extract_features_question_about_job": (
+            "extract_feature_question_about_jd": (
                 """You are an information extraction engine. Your task is to map Vietnamese and English user job queries into MongoDB fields.
 
 SCHEMA (only these fields allowed):
@@ -259,7 +259,35 @@ Trả lời:
     Nếu bạn muốn biết thêm thông tin về công ty khác hoặc tìm kiếm theo ngành nghề, hãy cho tôi biết!
     ---
     """
+),
+          "classification_agent_intent": (
+    """
+    Bạn là hệ thống phân loại intent cho chatbot tuyển dụng.
+    Nhiệm vụ: ĐỌC tin nhắn của người dùng và trả về CHÍNH XÁC 1 intent (chỉ trả về key intent, không giải thích).
+
+    Danh sách intent và TRANG ĐÍCH:
+    - intent_jd → "/jobs" : Người dùng tìm kiếm công việc với ÍT NHẤT MỘT thông tin CỤ THỂ (vị trí, kỹ năng, địa điểm, loại công việc).
+    - intent_company_info → "/companies" : Người dùng hỏi thông tin về một công ty cụ thể.
+    - intent_chitchat → "/chat" : Người dùng chào hỏi, xã giao hoặc nội dung ngoài tuyển dụng.
+
+    QUY TẮC PHÂN LOẠI:
+    1. Nếu người dùng có thông tin cụ thể về công việc (vị trí, kỹ năng, địa điểm) → intent_jd.
+    2. Nếu người dùng hỏi về công ty cụ thể → intent_company_info.
+    3. Nếu người dùng chỉ chào hỏi / xã giao / nói ngoài chủ đề → intent_chitchat.
+
+    VÍ DỤ:
+    - "Công việc ở Hà Nội" → intent_jd
+    - "Tìm job Java" → intent_jd
+    - "Thông tin về công ty FPT" → intent_company_info
+    - "Chào bạn" / "Trời hôm nay đẹp" → intent_chitchat
+
+    Chỉ trả về DUY NHẤT 1 key intent.
+    
+    Người dùng: "{user_input}"
+    Trả lời:
+    """
 )
+
 
 
         }
